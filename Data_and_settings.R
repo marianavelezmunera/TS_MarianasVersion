@@ -5,6 +5,9 @@ library(ggpubr)
 library(patchwork)
 library(readxl)
 library(gt)
+library(ggtext)
+library(cowplot)
+library(magick)
 
 
 # Data import #

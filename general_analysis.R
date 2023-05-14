@@ -1,0 +1,60 @@
+# General analysis
+
+# Boxplot with score info per album
+Sys.setlocale("LC_ALL", "German")
+options(encoding = "UTF-8")
+datos_TS$Album <- factor(datos_TS$Album , levels=c("Taylor Swift", "Fearless (Taylor's Version)", "Speak Now", "Red (Taylor's Version)","1989","reputation","Lover","folklore","evermore","Midnights"))
+
+font_add_google("Lato","Lato")
+font.families()
+showtext_auto()
+
+lab<-info_completa$url
+general_bp<-ggplot(data=datos_TS,aes(x=Album,y=Puntaje,fill=Album))+
+  geom_boxplot(color="black")+
+  xlab("ALBUM")+ylab("PUNTAJE")+
+  theme_pubclean()+
+  theme(legend.position = "none")+
+  scale_fill_manual(values =  c("#769839","#D9B97E","#6A2C73","#92150F","#93B3BF","#486049","#F2C2D4","grey","#F2845C","#162759"))+
+  coord_flip()+
+  theme(axis.text.y = element_blank())+
+  theme(axis.title.y = element_blank())
+  
+general_bp
+pimage <- axis_canvas(general_bp, axis = 'y')+
+  cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/4/40/Taylor_swift_logo.jpg", y = 2.2 , scale = 0.75)+
+  cowplot::draw_image("https://cdn.shopify.com/s/files/1/0011/4651/9637/t/235/assets/fr.png?v=95464405164507874381683655912", y = 3, scale = 0.75)+
+  cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/5/52/Taylor_Swift_-_Speak_Now.svg", y = 3.75, scale = 0.75)+
+  cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Red_%28Taylor%27s_Version%29_logo.svg/800px-Red_%28Taylor%27s_Version%29_logo.svg.png", y = 4.5, scale = 0.75)+
+  cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/5/5d/1989_album_logo.png", y =5.5, scale = 0.75)+
+  cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Reputation_Logo.svg/800px-Reputation_Logo.svg.png", y = 6.2, scale = 0.75)+
+  cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/6/61/Taylor_Swift_-_Lover_%28Logo%29.png", y = 7, scale = 0.75)+
+  cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/TS_folklore_Wordmark.svg/1920px-TS_folklore_Wordmark.svg.png", y = 7.8, scale = 0.75)+
+  cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Evermore-wordmark.svg/270px-Evermore-wordmark.svg.png", y = 8.6, scale = 0.75)+
+  cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/3/37/Taylor_Swift_-_Midnights_%28Logo%29.png", y = 9.4, scale = 0.75)
+  
+
+
+plot_listo<-ggdraw(insert_yaxis_grob(general_bp, pimage, position = "left"))
+plot_listo
+ggsave("boxplot_total.png",plot=plot_listo)
+
+#  Lyrics
+
+bars<-ggplot(data=datos_TS,aes(x=Letra,fill=Letra))+
+  geom_bar(width = 0.25,color="black")+
+  theme_pubclean()+
+  theme(aspect.ratio = 1)+
+  ylab("NÚMERO DE CANCIONES")+
+  theme(axis.title.x = element_blank())+
+  theme(axis.title.y = element_text(family="Lato",face="bold",size = 20))+
+  theme(axis.text.x = element_text(family = "Lato",size=14))+
+  theme(axis.text.y = element_text(family = "Lato",size=18))+
+  theme(legend.position = "none")+
+  scale_x_discrete(labels=c("Cringe","Masterpiece","Normal"))+
+  scale_fill_manual(values =c("#92150F","#93B3BF","#486049"))+
+  ylim(c(0,100))+
+  ggtitle("¿CÓMO ME PARECE LA LETRA DE LAS CANCIONES?")+
+  theme(plot.title = element_text(family = "Lato",face="bold",size = 20,hjust = 0))
+
+ggsave("letra.png",bars)
