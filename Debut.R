@@ -1,4 +1,7 @@
 # Taylor Swift (Debut album)
+
+# Table with scores 
+
 tabla_debut<-datos_TS[c(1:14),-2] %>%
   gt()%>%
   cols_label(Canción="Canción",Puntaje="Puntaje",Skip="Skip",Meidentifico="Me identifico")%>%
@@ -45,3 +48,35 @@ tabla_debut<-datos_TS[c(1:14),-2] %>%
       columns = everything(),
       rows = Canción=="Picture to Burn"))
 tabla_debut
+
+# Porcentaje de letras
+
+cringe_deb<-nrow(subset(datos_TS,Album=="Taylor Swift"&Letra=="CRINGE"))
+master_deb<-nrow(subset(datos_TS,Album=="Taylor Swift"&Letra=="MASTERPIECE"))
+normal_deb<-nrow(subset(datos_TS,Album=="Taylor Swift"&Letra=="NORMAL"))
+total_deb<-nrow(subset(datos_TS,Album=="Taylor Swift"))
+percentage_cringe_deb<-cringe_deb/total_deb
+percentage_master_deb<-master_deb/total_deb
+percentage_normal_deb<-normal_deb/total_deb
+ymax<-cumsum(c(percentage_cringe_deb,percentage_master_deb,percentage_normal_deb))
+ymin<-c(0,head(ymax,n=-1))
+
+data_deb<-data.frame(letra=c("cringe","master","normal"),percentage=c(percentage_cringe_deb,percentage_master_deb,percentage_normal_deb),ymax,ymin)
+
+labelposition<-(ymax+ymin)/2
+data_deb<-subset(data_deb,letra!="master")
+
+#Plot
+
+ggplot(data_deb,aes(ymax=ymax,ymin=ymin,xmax=4,xmin=3,fill=letra))+
+  geom_rect(colour="black")+
+  coord_polar(theta = "y")+
+  xlim(c(2,4))+
+  theme_void()+
+  theme(plot.title = element_text(size=25,hjust=0.5,family = "Lato",face = "bold",vjust=-3))+
+  theme(legend.text = element_text(size=12,family="Lato"))+
+  geom_text(x=3.5,aes(y=labelposition[-2],label=c("21%","78%")))+
+  scale_fill_manual(values=c("#769839","#18B5D9"),labels=c("Cringe","Normal"),name="LA LETRA ES:")+
+  theme(legend.title = element_text(family="Lato",face="bold",size = 16))
+
+

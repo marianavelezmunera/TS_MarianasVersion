@@ -12,7 +12,6 @@ library(ggridges)
 library(gtExtras)
 
 # Data import #
-
 datos_TS <- read_excel("datos_TS.xlsx")
 
 datos_TS<-datos_TS[,1:6] # Deleting the mean and median table included in the Excel

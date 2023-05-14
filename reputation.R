@@ -46,3 +46,35 @@ tabla_rep<-datos_TS[c(103:117),-2] %>%
       columns = everything(),
       rows = Canción=="Getaway Car"))
 tabla_rep
+
+
+# Porcentaje de letras
+
+cringe_rep<-nrow(subset(datos_TS,Album=="reputation"&Letra=="CRINGE"))
+master_rep<-nrow(subset(datos_TS,Album=="reputation"&Letra=="MASTERPIECE"))
+normal_rep<-nrow(subset(datos_TS,Album=="reputation"&Letra=="NORMAL"))
+total_rep<-nrow(subset(datos_TS,Album=="reputation"))
+percentage_cringe_rep<-cringe_rep/total_rep
+percentage_master_rep<-master_rep/total_rep
+percentage_normal_rep<-normal_rep/total_rep
+ymax_rep<-cumsum(c(percentage_cringe_rep,percentage_master_rep,percentage_normal_rep))
+ymin_rep<-c(0,head(ymax_rep,n=-1))
+
+data_rep<-data.frame(letra=c("cringe","master","normal"),percentage=c(percentage_cringe_rep,percentage_master_rep,percentage_normal_rep),ymax_rep,ymin_rep)
+
+labelposition_rep<-(ymax_rep+ymin_rep)/2
+
+#Plot
+
+ggplot(data_rep,aes(ymax=ymax_rep,ymin=ymin_rep,xmax=4,xmin=3,fill=letra))+
+  geom_rect(colour="black")+
+  coord_polar(theta = "y")+
+  xlim(c(2,4))+
+  theme_void()+
+  theme(plot.title = element_text(size=25,hjust=0.5,family = "Lato",face = "bold",vjust=-3))+
+  theme(legend.text = element_text(size=12,family="Lato"))+
+  geom_text(x=3.5,aes(y=labelposition_rep,label=c("40%","27%","33%")))+
+  scale_fill_manual(values=c("olivedrab4","#0C231F","#A49749"),labels=c("Cringe","Masterpiece","Normal"),name="LA LETRA ES:")+
+  theme(legend.title = element_text(family="Lato",face="bold",size = 16))
+
+percentage_normal_rep

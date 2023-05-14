@@ -46,3 +46,33 @@ tabla_red<-datos_TS[c(58:86),-2] %>%
       columns = everything(),
       rows = Canción=="State of Grace"))
 tabla_red
+
+# Porcentaje de letras
+
+cringe_red<-nrow(subset(datos_TS,Album=="Red (Taylor's Version)"&Letra=="CRINGE"))
+master_red<-nrow(subset(datos_TS,Album=="Red (Taylor's Version)"&Letra=="MASTERPIECE"))
+normal_red<-nrow(subset(datos_TS,Album=="Red (Taylor's Version)"&Letra=="NORMAL"))
+total_red<-nrow(subset(datos_TS,Album=="Red (Taylor's Version)"))
+percentage_cringe_red<-cringe_red/total_red
+percentage_master_red<-master_red/total_red
+percentage_normal_red<-normal_red/total_red
+ymax_red<-cumsum(c(percentage_cringe_red,percentage_master_red,percentage_normal_red))
+ymin_red<-c(0,head(ymax_red,n=-1))
+
+data_red<-data.frame(letra=c("cringe","master","normal"),percentage=c(percentage_cringe_red,percentage_master_red,percentage_normal_red),ymax_red,ymin_red)
+
+labelposition_red<-(ymax_red+ymin_red)/2
+
+#Plot
+
+ggplot(data_red,aes(ymax=ymax_red,ymin=ymin_red,xmax=4,xmin=3,fill=letra))+
+  geom_rect(colour="black")+
+  coord_polar(theta = "y")+
+  xlim(c(2,4))+
+  theme_void()+
+  theme(plot.title = element_text(size=25,hjust=0.5,family = "Lato",face = "bold",vjust=-3))+
+  theme(legend.text = element_text(size=12,family="Lato"))+
+  geom_text(x=3.5,aes(y=labelposition_red,label=c("4%","24%","72%")))+
+  scale_fill_manual(values=c("#BFA08E","#8C6A56","#BF1304"),labels=c("Cringe","Masterpiece","Normal"),name="LA LETRA ES:")+
+  theme(legend.title = element_text(family="Lato",face="bold",size = 16))
+

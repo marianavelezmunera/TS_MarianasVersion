@@ -46,3 +46,35 @@ tabla_folklore<-datos_TS[c(136:152),-2] %>%
       columns = everything(),
       rows = Canción=="mirrorball"))
 tabla_folklore
+
+#Porcentaje de letras
+
+cringe_fol<-nrow(subset(datos_TS,Album=="folklore"&Letra=="CRINGE"))
+master_fol<-nrow(subset(datos_TS,Album=="folklore"&Letra=="MASTERPIECE"))
+normal_fol<-nrow(subset(datos_TS,Album=="folklore"&Letra=="NORMAL"))
+total_fol<-nrow(subset(datos_TS,Album=="folklore"))
+percentage_cringe_fol<-cringe_fol/total_fol
+percentage_master_fol<-master_fol/total_fol
+percentage_normal_fol<-normal_fol/total_fol
+ymax_fol<-cumsum(c(percentage_cringe_fol,percentage_master_fol,percentage_normal_fol))
+ymin_fol<-c(0,head(ymax_fol,n=-1))
+
+data_fol<-data.frame(letra=c("cringe","master","normal"),percentage=c(percentage_cringe_fol,percentage_master_fol,percentage_normal_fol),ymax_fol,ymin_fol)
+data_fol<-subset(data_fol,letra!="cringe")
+
+labelposition_fol<-(ymax_fol+ymin_fol)/2
+
+#Plot
+
+ggplot(data_fol,aes(ymax=ymax_fol,ymin=ymin_fol,xmax=4,xmin=3,fill=letra))+
+  geom_rect(colour="black")+
+  coord_polar(theta = "y")+
+  xlim(c(2,4))+
+  theme_void()+
+  theme(plot.title = element_text(size=25,hjust=0.5,family = "Lato",face = "bold",vjust=-3))+
+  theme(legend.text = element_text(size=12,family="Lato"))+
+  geom_text(x=3.5,aes(y=labelposition_fol[2:3],label=c("82%","18%")))+
+  scale_fill_manual(values=c("#BEB9B5","#BFBB7A"),labels=c("Masterpiece","Normal"),name="LA LETRA ES:")+
+  theme(legend.title = element_text(family="Lato",face="bold",size = 16))
+
+percentage_master_fol

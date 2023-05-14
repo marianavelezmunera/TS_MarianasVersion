@@ -45,3 +45,35 @@ tabla_lover<-datos_TS[c(118:135),-2] %>%
       columns = everything(),
       rows = Canción=="Daylight"))
 tabla_lover
+
+
+# Porcentaje de letras
+
+cringe_lov<-nrow(subset(datos_TS,Album=="Lover"&Letra=="CRINGE"))
+master_lov<-nrow(subset(datos_TS,Album=="Lover"&Letra=="MASTERPIECE"))
+normal_lov<-nrow(subset(datos_TS,Album=="Lover"&Letra=="NORMAL"))
+total_lov<-nrow(subset(datos_TS,Album=="Lover"))
+percentage_cringe_lov<-cringe_lov/total_lov
+percentage_master_lov<-master_lov/total_lov
+percentage_normal_lov<-normal_lov/total_lov
+ymax_lov<-cumsum(c(percentage_cringe_lov,percentage_master_lov,percentage_normal_lov))
+ymin_lov<-c(0,head(ymax_lov,n=-1))
+
+data_lov<-data.frame(letra=c("cringe","master","normal"),percentage=c(percentage_cringe_lov,percentage_master_lov,percentage_normal_lov),ymax_lov,ymin_lov)
+
+labelposition_lov<-(ymax_lov+ymin_lov)/2
+
+#Plot
+
+ggplot(data_lov,aes(ymax=ymax_lov,ymin=ymin_lov,xmax=4,xmin=3,fill=letra))+
+  geom_rect(colour="black")+
+  coord_polar(theta = "y")+
+  xlim(c(2,4))+
+  theme_void()+
+  theme(plot.title = element_text(size=25,hjust=0.5,family = "Lato",face = "bold",vjust=-3))+
+  theme(legend.text = element_text(size=12,family="Lato"))+
+  geom_text(x=3.5,aes(y=labelposition_lov,label=c("28%","44%","28%")))+
+  scale_fill_manual(values=c("#F2C9D4","#F2DBAE","#6CBAD9"),labels=c("Cringe","Masterpiece","Normal"),name="LA LETRA ES:")+
+  theme(legend.title = element_text(family="Lato",face="bold",size = 16))
+
+percentage_normal_lov
