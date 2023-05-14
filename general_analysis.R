@@ -1,6 +1,7 @@
 # General analysis
 
 # Boxplot with score info per album
+
 Sys.setlocale("LC_ALL", "German")
 options(encoding = "UTF-8")
 datos_TS$Album <- factor(datos_TS$Album , levels=c("Taylor Swift", "Fearless (Taylor's Version)", "Speak Now", "Red (Taylor's Version)","1989","reputation","Lover","folklore","evermore","Midnights"))
@@ -18,7 +19,9 @@ general_bp<-ggplot(data=datos_TS,aes(x=Album,y=Puntaje,fill=Album))+
   scale_fill_manual(values =  c("#769839","#D9B97E","#6A2C73","#92150F","#93B3BF","#486049","#F2C2D4","grey","#F2845C","#162759"))+
   coord_flip()+
   theme(axis.text.y = element_blank())+
-  theme(axis.title.y = element_blank())
+  theme(axis.title.y = element_blank())+
+  theme(axis.text.x = element_text(family = "Lato",size=16))+
+  theme(axis.title.x = element_text(family = "Lato",size=20,face="bold"))
   
 general_bp
 pimage <- axis_canvas(general_bp, axis = 'y')+
@@ -58,3 +61,48 @@ bars<-ggplot(data=datos_TS,aes(x=Letra,fill=Letra))+
   theme(plot.title = element_text(family = "Lato",face="bold",size = 20,hjust = 0))
 
 ggsave("letra.png",bars)
+
+#Skips
+
+skips<-as.data.frame(table(datos_TS$Album,datos_TS$Skip))
+colnames(skips)<-c("album","skips","frecuencia")
+
+
+skips_graph<-ggplot(data = skips,aes(x=album,y=frecuencia,fill=skips))+
+  geom_bar(position="dodge", stat="identity",color="black")+
+  theme_pubclean()+
+  coord_flip()+
+  ylab("NÚMERO DE CANCIONES")+
+  scale_fill_manual(name = "SKIPS",values=c("#162759","grey"))+
+  theme(axis.title.x = element_text(family="Lato",face="bold",size=20))+
+  theme(axis.title.y = element_blank())+
+  theme(axis.text.y = element_blank())+
+  theme(legend.title = element_text(family = "Lato",size = 16))+
+  theme(legend.text = element_text(family = "Lato",size=16))+
+  theme(axis.text = element_text(family = "Lato",size = 16))+
+  theme(legend.position = "right")
+skips_graph
+
+skips_listo<-ggdraw(insert_yaxis_grob(skips_graph, pimage, position = "left"))
+skips_listo
+
+ggsave("skips.png",skips_listo)
+
+#densidades
+
+ridge<-ggplot(data=datos_TS,aes(x=Puntaje,y=Album,fill=Album))+
+  geom_density_ridges(alpha=0.7)+
+  theme_pubclean()+
+  theme(legend.position = "none")+
+  scale_fill_manual(values =  c("#769839","#D9B97E","#6A2C73","#92150F","#93B3BF","#486049","#F2C2D4","grey","#F2845C","#162759"))+
+  theme(axis.text.y = element_blank())+
+  theme(axis.title.y = element_blank())+
+  xlab("PUNTAJE")+
+  theme(axis.title.x = element_text(family = "Lato",face="bold",size=20))+
+  theme(axis.text.x = element_text(family = "Lato",size=16))+
+  scale_x_continuous(breaks=seq(2, 10, 2))
+  
+  
+ridges_listo<-ggdraw(insert_yaxis_grob(ridge, pimage, position = "left"))
+ridges_listo
+ggsave("ridges.png",ridges_listo)

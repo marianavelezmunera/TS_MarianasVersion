@@ -8,7 +8,7 @@ library(gt)
 library(ggtext)
 library(cowplot)
 library(magick)
-
+library(ggridges)
 
 # Data import #
 
