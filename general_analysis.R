@@ -16,7 +16,7 @@ general_bp<-ggplot(data=datos_TS,aes(x=Album,y=Puntaje,fill=Album))+
   xlab("ALBUM")+ylab("PUNTAJE")+
   theme_pubclean()+
   theme(legend.position = "none")+
-  scale_fill_manual(values =  c("#769839","#D9B97E","#6A2C73","#92150F","#93B3BF","#486049","#F2C2D4","grey","#F2845C","#162759"))+
+  scale_fill_manual(values =  c("#769839","#D9B97E","#BF5690","#92150F","#93B3BF","#486049","#F2C2D4","grey","#F2845C","#162759"))+
   coord_flip()+
   theme(axis.text.y = element_blank())+
   theme(axis.title.y = element_blank())+
@@ -94,7 +94,7 @@ ridge<-ggplot(data=datos_TS,aes(x=Puntaje,y=Album,fill=Album))+
   geom_density_ridges(alpha=0.7)+
   theme_pubclean()+
   theme(legend.position = "none")+
-  scale_fill_manual(values =  c("#769839","#D9B97E","#6A2C73","#92150F","#93B3BF","#486049","#F2C2D4","grey","#F2845C","#162759"))+
+  scale_fill_manual(values =  c("#769839","#D9B97E","#BF5690","#92150F","#93B3BF","#486049","#F2C2D4","grey","#F2845C","#162759"))+
   theme(axis.text.y = element_blank())+
   theme(axis.title.y = element_blank())+
   xlab("PUNTAJE")+
