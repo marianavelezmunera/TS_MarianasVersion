@@ -48,7 +48,7 @@ tabla_debut<-datos_TS[c(1:14),-2] %>%
       columns = everything(),
       rows = Canción=="Picture to Burn"))
 tabla_debut
-
+gtsave_extra(tabla_debut,"tabla_debut.png")
 # Porcentaje de letras
 
 cringe_deb<-nrow(subset(datos_TS,Album=="Taylor Swift"&Letra=="CRINGE"))
@@ -78,5 +78,6 @@ ggplot(data_deb,aes(ymax=ymax,ymin=ymin,xmax=4,xmin=3,fill=letra))+
   geom_text(x=3.5,aes(y=labelposition[-2],label=c("21%","78%")))+
   scale_fill_manual(values=c("#769839","#18B5D9"),labels=c("Cringe","Normal"),name="LA LETRA ES:")+
   theme(legend.title = element_text(family="Lato",face="bold",size = 16))
+
 
 

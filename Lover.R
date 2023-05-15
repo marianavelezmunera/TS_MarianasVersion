@@ -46,7 +46,7 @@ tabla_lover<-datos_TS[c(118:135),-2] %>%
       rows = Canción=="Daylight"))
 tabla_lover
 
-
+gtsave_extra(tabla_lover,"tabla_lover.png")
 # Porcentaje de letras
 
 cringe_lov<-nrow(subset(datos_TS,Album=="Lover"&Letra=="CRINGE"))

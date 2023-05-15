@@ -46,7 +46,7 @@ tabla_rep<-datos_TS[c(103:117),-2] %>%
       columns = everything(),
       rows = Canción=="Getaway Car"))
 tabla_rep
-
+gtsave_extra(tabla_rep,"tabla_rep.png")
 
 # Porcentaje de letras
 

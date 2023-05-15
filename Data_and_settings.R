@@ -10,6 +10,7 @@ library(cowplot)
 library(magick)
 library(ggridges)
 library(gtExtras)
+library(treemap)
 
 # Data import #
 datos_TS <- read_excel("datos_TS.xlsx")

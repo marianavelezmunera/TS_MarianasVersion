@@ -46,6 +46,8 @@ tabla_red<-datos_TS[c(58:86),-2] %>%
       columns = everything(),
       rows = Canción=="State of Grace"))
 tabla_red
+gtsave(tabla_red,"tabla_red.png")
+gtsave_extra(tabla_red,"tabla_red.png")
 
 # Porcentaje de letras
 

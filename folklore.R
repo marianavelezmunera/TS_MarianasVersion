@@ -47,6 +47,7 @@ tabla_folklore<-datos_TS[c(136:152),-2] %>%
       rows = Canción=="mirrorball"))
 tabla_folklore
 
+gtsave_extra(tabla_folklore,"tabla_folklore.png")
 #Porcentaje de letras
 
 cringe_fol<-nrow(subset(datos_TS,Album=="folklore"&Letra=="CRINGE"))

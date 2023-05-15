@@ -106,3 +106,45 @@ ridge<-ggplot(data=datos_TS,aes(x=Puntaje,y=Album,fill=Album))+
 ridges_listo<-ggdraw(insert_yaxis_grob(ridge, pimage, position = "left"))
 ridges_listo
 ggsave("ridges.png",ridges_listo)
+
+#Identificacion
+
+
+
+conteo_iden<-count(datos_TS,Album,Meidentifico)
+
+no<-subset(conteo_iden,Meidentifico=="NO")
+si<-subset(conteo_iden,Meidentifico=="SÍ")
+tabla_ident<-data.frame(album=datos_TS$Album,si=cou)
+
+identi<-no[,-2]
+colnames(identi)[2]<-"NO"
+identi$SI<-si$n
+
+identi$Album <- factor(identi$Album , levels=c("Taylor Swift", "Fearless (Taylor's Version)", "Speak Now", "Red (Taylor's Version)","1989","reputation","Lover","folklore","evermore","Midnights"))
+
+
+loli<-ggplot(identi) +
+  geom_segment( aes(x=Album, xend=Album, y=SI, yend=NO), color="black") +
+  geom_point( aes(x=Album, y=SI,color = "SI"), size=3 ) +
+  geom_point( aes(x=Album, y=NO,color="NO"), size=3 ) +
+  scale_color_manual(values = c("#BF5690", "#162759"),
+                     guide  = guide_legend(), 
+                     name   = "¿ME IDENTIFICO CON LA CANCIÓN?")+
+  theme_pubclean()+
+  coord_flip()+
+  xlab("") +
+  ylab("NÚMERO DE CANCIONES")+
+  theme(legend.position = "bottom",
+        panel.border    = element_blank())+
+  theme(legend.text = element_text(family = "Lato",size = 16))+
+  theme(legend.title = element_text(family = "Lato",face="bold",size=16))+
+  theme(axis.text.y = element_blank())+
+  theme(axis.title.x = element_text(family = "Lato",face="bold",size = 20) )+
+  theme(axis.text.x = element_text(family = "Lato",size=16))
+
+loli_listo<-ggdraw(insert_yaxis_grob(loli, pimage, position = "left"))
+loli_listo
+ggsave("identificada_total.png",plot=loli_listo)
+  
+

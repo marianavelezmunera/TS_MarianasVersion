@@ -45,7 +45,7 @@ tabla_evermore<-datos_TS[c(153:169),-2] %>%
       columns = everything(),
       rows = Canción=="no body no crime (con Haim)"))
 tabla_evermore
-
+gtsave_extra(tabla_evermore,"tabla_evermore.png")
 #Porcentaje de letras
 
 cringe_ever<-nrow(subset(datos_TS,Album=="evermore"&Letra=="CRINGE"))

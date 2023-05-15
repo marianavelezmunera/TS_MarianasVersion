@@ -70,4 +70,4 @@ tabla <- tabla %>%
   cols_align("center")
 tabla
 
-gtsave(tabla,"tabla_puntajes.png")
+gtsave(tabla,"tabla_puntajes1.png")

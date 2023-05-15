@@ -45,6 +45,7 @@ tabla_sn<-datos_TS[c(41:57),-2] %>%
       columns = everything(),
       rows = Canción=="Mean"))
 tabla_sn
+gtsave_extra(tabla_sn,"tabla_sn.png")
 
 
 # Porcentaje de letras

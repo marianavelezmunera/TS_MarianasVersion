@@ -46,6 +46,7 @@ tabla_1989<-datos_TS[c(87:102),-2] %>%
       columns = everything(),
       rows = Canción=="New Romantics"))
 tabla_1989
+gtsave_extra(tabla_1989,"tabla_1989.png")
 
 # Porcentaje de letras
 

@@ -46,6 +46,7 @@ tabla_fearless<-datos_TS[c(15:40),-2] %>%
       columns = everything(),
       rows = Canción=="Mr. Perfectly Fine"))
 tabla_fearless
+gtsave_extra(tabla_fearless,"tabla_fearless.png")
 
 ## Porcentaje de las letras
 

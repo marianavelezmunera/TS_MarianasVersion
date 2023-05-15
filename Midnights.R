@@ -45,3 +45,4 @@ tabla_Mid<-datos_TS[c(170:189),-2] %>%
       columns = everything(),
       rows = Canción=="The Great War"))
 tabla_Mid
+gtsave_extra(tabla_Mid,"tabla_Midnights.png")
