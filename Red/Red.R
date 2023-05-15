@@ -67,14 +67,30 @@ labelposition_red<-(ymax_red+ymin_red)/2
 
 #Plot
 
-ggplot(data_red,aes(ymax=ymax_red,ymin=ymin_red,xmax=4,xmin=3,fill=letra))+
+pie_red<-ggplot(data_red,aes(ymax=ymax_red,ymin=ymin_red,xmax=4,xmin=3,fill=letra))+
   geom_rect(colour="black")+
   coord_polar(theta = "y")+
   xlim(c(2,4))+
   theme_void()+
-  theme(plot.title = element_text(size=25,hjust=0.5,family = "Lato",face = "bold",vjust=-3))+
-  theme(legend.text = element_text(size=12,family="Lato"))+
-  geom_text(x=3.5,aes(y=labelposition_red,label=c("4%","24%","72%")))+
+  theme(legend.text = element_text(size=16,family="Lato"))+
+  geom_text(x=3.5,size=8,aes(y=labelposition_red,label=c("4%","24%","72%")))+
   scale_fill_manual(values=c("#BFA08E","#8C6A56","#BF1304"),labels=c("Cringe","Masterpiece","Normal"),name="LA LETRA ES:")+
-  theme(legend.title = element_text(family="Lato",face="bold",size = 16))
+  theme(legend.title = element_text(family="Lato",face="bold",size = 20))
+
+# Skips 
+
+bar_red<-ggplot(data = subset(skips,album=="Red (Taylor's Version)"),aes(x=skips,y=frecuencia,fill=skips))+
+  geom_bar(position="dodge", stat="identity",color="black",width = 0.25)+
+  theme_pubclean()+
+  ylab("NÚMERO DE CANCIONES")+
+  xlab("¿SKIP?")+
+  scale_y_continuous(breaks = seq(0,15,3))+
+  theme(legend.position = "none")+
+  scale_fill_manual(values=c("#8C6A56","#BF1304"))+
+  theme(axis.title = element_text(family = "Lato",face = "bold",size = 20))+
+  theme(axis.text = element_text(family = "Lato",size = 16))+
+  theme(aspect.ratio = 1)
+bar_FTV
+red_stats<-bar_red+pie_red
+ggsave("red_stats.png",plot=red_stats)
 

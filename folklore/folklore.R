@@ -67,15 +67,31 @@ labelposition_fol<-(ymax_fol+ymin_fol)/2
 
 #Plot
 
-ggplot(data_fol,aes(ymax=ymax_fol,ymin=ymin_fol,xmax=4,xmin=3,fill=letra))+
+pie_fol<-ggplot(data_fol,aes(ymax=ymax_fol,ymin=ymin_fol,xmax=4,xmin=3,fill=letra))+
   geom_rect(colour="black")+
   coord_polar(theta = "y")+
   xlim(c(2,4))+
   theme_void()+
-  theme(plot.title = element_text(size=25,hjust=0.5,family = "Lato",face = "bold",vjust=-3))+
-  theme(legend.text = element_text(size=12,family="Lato"))+
-  geom_text(x=3.5,aes(y=labelposition_fol[2:3],label=c("82%","18%")))+
+  theme(legend.text = element_text(size=16,family="Lato"))+
+  geom_text(x=3.5,size=8,aes(y=labelposition_fol[2:3],label=c("82%","18%")))+
   scale_fill_manual(values=c("#BEB9B5","#BFBB7A"),labels=c("Masterpiece","Normal"),name="LA LETRA ES:")+
-  theme(legend.title = element_text(family="Lato",face="bold",size = 16))
+  theme(legend.title = element_text(family="Lato",face="bold",size = 20))
 
 percentage_master_fol
+
+
+# Skips 
+
+bar_fol<-ggplot(data = subset(skips,album=="folklore"),aes(x=skips,y=frecuencia,fill=skips))+
+  geom_bar(position="dodge", stat="identity",color="black",width = 0.25)+
+  theme_pubclean()+
+  ylab("NÚMERO DE CANCIONES")+
+  xlab("¿SKIP?")+
+  scale_y_continuous(breaks = seq(0,15,3))+
+  theme(legend.position = "none")+
+  scale_fill_manual(values=c("#BEB9B5","#BFBB7A"))+
+  theme(axis.title = element_text(family = "Lato",face = "bold",size = 20))+
+  theme(axis.text = element_text(family = "Lato",size = 16))+
+  theme(aspect.ratio = 1)
+fol_stats<-bar_fol+pie_fol
+ggsave("fol_stats.png",plot=fol_stats)

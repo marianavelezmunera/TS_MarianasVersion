@@ -66,14 +66,30 @@ labelposition_1989<-(ymax_1989+ymin_1989)/2
 
 #Plot
 
-ggplot(data_1989,aes(ymax=ymax_1989,ymin=ymin_1989,xmax=4,xmin=3,fill=letra))+
+pie_1989<-ggplot(data_1989,aes(ymax=ymax_1989,ymin=ymin_1989,xmax=4,xmin=3,fill=letra))+
   geom_rect(colour="black")+
   coord_polar(theta = "y")+
   xlim(c(2,4))+
   theme_void()+
-  theme(plot.title = element_text(size=25,hjust=0.5,family = "Lato",face = "bold",vjust=-3))+
-  theme(legend.text = element_text(size=12,family="Lato"))+
-  geom_text(x=3.5,aes(y=labelposition_1989,label=c("25%","44%","31%")))+
+  theme(legend.text = element_text(size=16,family="Lato"))+
+  geom_text(x=3.5,size=8,aes(y=labelposition_1989,label=c("25%","44%","31%")))+
   scale_fill_manual(values=c("#5E4973","#93B3BF","#D9CEAD"),labels=c("Cringe","Masterpiece","Normal"),name="LA LETRA ES:")+
-  theme(legend.title = element_text(family="Lato",face="bold",size = 16))
+  theme(legend.title = element_text(family="Lato",face="bold",size = 20))
 percentage_normal_1989
+
+# Skips 
+
+bar_1989<-ggplot(data = subset(skips,album=="1989"),aes(x=skips,y=frecuencia,fill=skips))+
+  geom_bar(position="dodge", stat="identity",color="black",width = 0.25)+
+  theme_pubclean()+
+  ylab("NÚMERO DE CANCIONES")+
+  xlab("¿SKIP?")+
+  scale_y_continuous(breaks = seq(0,15,3))+
+  theme(legend.position = "none")+
+  scale_fill_manual(values=c("#5E4973","#93B3BF"))+
+  theme(axis.title = element_text(family = "Lato",face = "bold",size = 20))+
+  theme(axis.text = element_text(family = "Lato",size = 16))+
+  theme(aspect.ratio = 1)
+bar_FTV
+stats_1989<-bar_1989+pie_1989
+ggsave("1989_deb.png",plot=stats_1989)  

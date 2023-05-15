@@ -68,16 +68,32 @@ data_deb<-subset(data_deb,letra!="master")
 
 #Plot
 
-ggplot(data_deb,aes(ymax=ymax,ymin=ymin,xmax=4,xmin=3,fill=letra))+
+pie_deb<-ggplot(data_deb,aes(ymax=ymax,ymin=ymin,xmax=4,xmin=3,fill=letra))+
   geom_rect(colour="black")+
   coord_polar(theta = "y")+
   xlim(c(2,4))+
   theme_void()+
-  theme(plot.title = element_text(size=25,hjust=0.5,family = "Lato",face = "bold",vjust=-3))+
-  theme(legend.text = element_text(size=12,family="Lato"))+
-  geom_text(x=3.5,aes(y=labelposition[-2],label=c("21%","78%")))+
+  theme(legend.text = element_text(size=16,family="Lato"))+
+  geom_text(x=3.5,size=8,aes(y=labelposition[-2],label=c("21%","78%")))+
   scale_fill_manual(values=c("#769839","#18B5D9"),labels=c("Cringe","Normal"),name="LA LETRA ES:")+
-  theme(legend.title = element_text(family="Lato",face="bold",size = 16))
+  theme(legend.title = element_text(family="Lato",face="bold",size = 20))+
+  theme()
 
+#Skips
 
+bar_deb<-ggplot(data = subset(skips,album=="Taylor Swift"),aes(x=skips,y=frecuencia,fill=skips))+
+  geom_bar(position="dodge", stat="identity",color="black",width = 0.25)+
+  theme_pubclean()+
+  ylab("NÚMERO DE CANCIONES")+
+  xlab("¿SKIP?")+
+  scale_y_continuous(breaks = seq(0,15,3))+
+  theme(legend.position = "none")+
+  scale_fill_manual(values=c("#769839","#18B5D9"))+
+  theme(axis.title = element_text(family = "Lato",face = "bold",size = 20))+
+  theme(axis.text = element_text(family = "Lato",size = 16))+
+  theme(aspect.ratio = 1)
 
+deb_stats<-bar_deb+pie_deb
+ggsave("stats_deb.png",plot=deb_stats)  
+
+deb_stats

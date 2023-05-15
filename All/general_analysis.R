@@ -67,7 +67,7 @@ ggsave("letra.png",bars)
 skips<-as.data.frame(table(datos_TS$Album,datos_TS$Skip))
 colnames(skips)<-c("album","skips","frecuencia")
 
-
+skips
 skips_graph<-ggplot(data = skips,aes(x=album,y=frecuencia,fill=skips))+
   geom_bar(position="dodge", stat="identity",color="black")+
   theme_pubclean()+

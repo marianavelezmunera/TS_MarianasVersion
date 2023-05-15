@@ -65,15 +65,30 @@ labelposition_lov<-(ymax_lov+ymin_lov)/2
 
 #Plot
 
-ggplot(data_lov,aes(ymax=ymax_lov,ymin=ymin_lov,xmax=4,xmin=3,fill=letra))+
+pie_lov<-ggplot(data_lov,aes(ymax=ymax_lov,ymin=ymin_lov,xmax=4,xmin=3,fill=letra))+
   geom_rect(colour="black")+
   coord_polar(theta = "y")+
   xlim(c(2,4))+
   theme_void()+
-  theme(plot.title = element_text(size=25,hjust=0.5,family = "Lato",face = "bold",vjust=-3))+
-  theme(legend.text = element_text(size=12,family="Lato"))+
-  geom_text(x=3.5,aes(y=labelposition_lov,label=c("28%","44%","28%")))+
+  theme(legend.text = element_text(size=16,family="Lato"))+
+  geom_text(x=3.5,size=8,aes(y=labelposition_lov,label=c("28%","44%","28%")))+
   scale_fill_manual(values=c("#F2C9D4","#F2DBAE","#6CBAD9"),labels=c("Cringe","Masterpiece","Normal"),name="LA LETRA ES:")+
-  theme(legend.title = element_text(family="Lato",face="bold",size = 16))
+  theme(legend.title = element_text(family="Lato",face="bold",size = 20))
 
 percentage_normal_lov
+
+# Skips 
+
+bar_lov<-ggplot(data = subset(skips,album=="Lover"),aes(x=skips,y=frecuencia,fill=skips))+
+  geom_bar(position="dodge", stat="identity",color="black",width = 0.25)+
+  theme_pubclean()+
+  ylab("NÚMERO DE CANCIONES")+
+  xlab("¿SKIP?")+
+  scale_y_continuous(breaks = seq(0,15,3))+
+  theme(legend.position = "none")+
+  scale_fill_manual(values=c("#F2C9D4","#6CBAD9"))+
+  theme(axis.title = element_text(family = "Lato",face = "bold",size = 20))+
+  theme(axis.text = element_text(family = "Lato",size = 16))+
+  theme(aspect.ratio = 1)
+lov_stats<-bar_lov+pie_lov
+ggsave("lov_stats.png",plot=lov_stats)
