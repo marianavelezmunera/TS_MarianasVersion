@@ -1,4 +1,6 @@
-#1989#
+# 1989
+
+# Table with scores per song
 
 tabla_1989<-datos_TS[c(87:102),-2] %>%
   gt()%>%
@@ -45,10 +47,11 @@ tabla_1989<-datos_TS[c(87:102),-2] %>%
     locations = cells_body(
       columns = everything(),
       rows = Canción=="New Romantics"))
-tabla_1989
 gtsave_extra(tabla_1989,"tabla_1989.png")
 
-# Porcentaje de letras
+#Lyrics
+
+#Percentage per category
 
 cringe_1989<-nrow(subset(datos_TS,Album=="1989"&Letra=="CRINGE"))
 master_1989<-nrow(subset(datos_TS,Album=="1989"&Letra=="MASTERPIECE"))
@@ -64,7 +67,7 @@ data_1989<-data.frame(letra=c("cringe","master","normal"),percentage=c(percentag
 
 labelposition_1989<-(ymax_1989+ymin_1989)/2
 
-#Plot
+#Pie chart
 
 pie_1989<-ggplot(data_1989,aes(ymax=ymax_1989,ymin=ymin_1989,xmax=4,xmin=3,fill=letra))+
   geom_rect(colour="black")+
@@ -75,7 +78,6 @@ pie_1989<-ggplot(data_1989,aes(ymax=ymax_1989,ymin=ymin_1989,xmax=4,xmin=3,fill=
   geom_text(x=3.5,size=8,aes(y=labelposition_1989,label=c("25%","44%","31%")))+
   scale_fill_manual(values=c("#5E4973","#93B3BF","#D9CEAD"),labels=c("Cringe","Masterpiece","Normal"),name="LA LETRA ES:")+
   theme(legend.title = element_text(family="Lato",face="bold",size = 20))
-percentage_normal_1989
 
 # Skips 
 
@@ -90,6 +92,6 @@ bar_1989<-ggplot(data = subset(skips,album=="1989"),aes(x=skips,y=frecuencia,fil
   theme(axis.title = element_text(family = "Lato",face = "bold",size = 20))+
   theme(axis.text = element_text(family = "Lato",size = 16))+
   theme(aspect.ratio = 1)
-bar_FTV
-stats_1989<-bar_1989+pie_1989
+
+stats_1989<-bar_1989+pie_1989 #combined plot 
 ggsave("1989_deb.png",plot=stats_1989)  

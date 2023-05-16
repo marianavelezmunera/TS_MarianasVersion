@@ -1,4 +1,5 @@
 #evermore
+
 tabla_evermore<-datos_TS[c(153:169),-2] %>%
   gt()%>%
   cols_label(Canción="Canción",Puntaje="Puntaje",Skip="Skip",Meidentifico="Me identifico")%>%
@@ -44,9 +45,11 @@ tabla_evermore<-datos_TS[c(153:169),-2] %>%
     locations = cells_body(
       columns = everything(),
       rows = Canción=="no body no crime (con Haim)"))
-tabla_evermore
 gtsave_extra(tabla_evermore,"tabla_evermore.png")
-#Porcentaje de letras
+
+#Lyrics
+
+#Percentage per category
 
 cringe_ever<-nrow(subset(datos_TS,Album=="evermore"&Letra=="CRINGE"))
 master_ever<-nrow(subset(datos_TS,Album=="evermore"&Letra=="MASTERPIECE"))
@@ -60,10 +63,10 @@ ymin_ever<-c(0,head(ymax_ever,n=-1))
 
 data_ever<-data.frame(letra=c("cringe","master","normal"),percentage=c(percentage_cringe_ever,percentage_master_ever,percentage_normal_ever),ymax_ever,ymin_ever)
 
-data_ever<-subset(data_ever,letra!="cringe")
+data_ever<-subset(data_ever,letra!="cringe") #There were no cringes in evermore, so I subseted the data to avoid adding a cringe box in the legend when there weren't any cringes
 labelposition_ever<-(ymax_ever+ymin_ever)/2
 
-#Plot
+#Pie chart
 
 pie_ever<-ggplot(data_ever,aes(ymax=ymax_ever,ymin=ymin_ever,xmax=4,xmin=3,fill=letra))+
   geom_rect(colour="black")+
@@ -74,9 +77,6 @@ pie_ever<-ggplot(data_ever,aes(ymax=ymax_ever,ymin=ymin_ever,xmax=4,xmin=3,fill=
   geom_text(x=3.5,size=8,aes(y=labelposition_ever[2:3],label=c("35%","65%")))+
   scale_fill_manual(values=c("#D9704A","#594636"),labels=c("Masterpiece","Normal"),name="LA LETRA ES:")+
   theme(legend.title = element_text(family="Lato",face="bold",size = 20))
-
-percentage_normal_ever
-
 
 # Skips 
 

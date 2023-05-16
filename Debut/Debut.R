@@ -1,6 +1,6 @@
 # Taylor Swift (Debut album)
 
-# Table with scores 
+# Table with scores per song
 
 tabla_debut<-datos_TS[c(1:14),-2] %>%
   gt()%>%
@@ -47,9 +47,11 @@ tabla_debut<-datos_TS[c(1:14),-2] %>%
     locations = cells_body(
       columns = everything(),
       rows = Canción=="Picture to Burn"))
-tabla_debut
 gtsave_extra(tabla_debut,"tabla_debut.png")
-# Porcentaje de letras
+
+#Lyrics
+
+#Percentage per category
 
 cringe_deb<-nrow(subset(datos_TS,Album=="Taylor Swift"&Letra=="CRINGE"))
 master_deb<-nrow(subset(datos_TS,Album=="Taylor Swift"&Letra=="MASTERPIECE"))
@@ -58,15 +60,16 @@ total_deb<-nrow(subset(datos_TS,Album=="Taylor Swift"))
 percentage_cringe_deb<-cringe_deb/total_deb
 percentage_master_deb<-master_deb/total_deb
 percentage_normal_deb<-normal_deb/total_deb
+
 ymax<-cumsum(c(percentage_cringe_deb,percentage_master_deb,percentage_normal_deb))
 ymin<-c(0,head(ymax,n=-1))
 
 data_deb<-data.frame(letra=c("cringe","master","normal"),percentage=c(percentage_cringe_deb,percentage_master_deb,percentage_normal_deb),ymax,ymin)
 
-labelposition<-(ymax+ymin)/2
-data_deb<-subset(data_deb,letra!="master")
+labelposition<-(ymax+ymin)/2 #label positions in the pie chart
+data_deb<-subset(data_deb,letra!="master") #There were no masterpieces in debut, so I subseted the data to avoid adding a master box in the legend when there weren't any masterpieces
 
-#Plot
+#Pie chart
 
 pie_deb<-ggplot(data_deb,aes(ymax=ymax,ymin=ymin,xmax=4,xmin=3,fill=letra))+
   geom_rect(colour="black")+
@@ -93,7 +96,6 @@ bar_deb<-ggplot(data = subset(skips,album=="Taylor Swift"),aes(x=skips,y=frecuen
   theme(axis.text = element_text(family = "Lato",size = 16))+
   theme(aspect.ratio = 1)
 
-deb_stats<-bar_deb+pie_deb
+deb_stats<-bar_deb+pie_deb #combined plot
 ggsave("stats_deb.png",plot=deb_stats)  
 
-deb_stats

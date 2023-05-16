@@ -1,16 +1,15 @@
 # General analysis
 
-# Boxplot with score info per album
-
 Sys.setlocale("LC_ALL", "German")
-options(encoding = "UTF-8")
-datos_TS$Album <- factor(datos_TS$Album , levels=c("Taylor Swift", "Fearless (Taylor's Version)", "Speak Now", "Red (Taylor's Version)","1989","reputation","Lover","folklore","evermore","Midnights"))
+options(encoding = "UTF-8") #For the tildes (I don't know why ggplot wasn't having it with the tildes)
+datos_TS$Album <- factor(datos_TS$Album , levels=c("Taylor Swift", "Fearless (Taylor's Version)", "Speak Now", "Red (Taylor's Version)","1989","reputation","Lover","folklore","evermore","Midnights")) #Reordering so it is in launch order
 
-font_add_google("Lato","Lato")
+font_add_google("Lato","Lato") #Font
 font.families()
 showtext_auto()
 
-lab<-info_completa$url
+# Boxplot with score info per album
+
 general_bp<-ggplot(data=datos_TS,aes(x=Album,y=Puntaje,fill=Album))+
   geom_boxplot(color="black")+
   xlab("ALBUM")+ylab("PUNTAJE")+
@@ -34,15 +33,13 @@ pimage <- axis_canvas(general_bp, axis = 'y')+
   cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/6/61/Taylor_Swift_-_Lover_%28Logo%29.png", y = 7, scale = 0.75)+
   cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/TS_folklore_Wordmark.svg/1920px-TS_folklore_Wordmark.svg.png", y = 7.8, scale = 0.75)+
   cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Evermore-wordmark.svg/270px-Evermore-wordmark.svg.png", y = 8.6, scale = 0.75)+
-  cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/3/37/Taylor_Swift_-_Midnights_%28Logo%29.png", y = 9.4, scale = 0.75)
+  cowplot::draw_image("https://upload.wikimedia.org/wikipedia/commons/3/37/Taylor_Swift_-_Midnights_%28Logo%29.png", y = 9.4, scale = 0.75) #Canvas with album logos 
   
-
-
-plot_listo<-ggdraw(insert_yaxis_grob(general_bp, pimage, position = "left"))
+plot_listo<-ggdraw(insert_yaxis_grob(general_bp, pimage, position = "left")) #Plot with the canvas and the boxplots
 plot_listo
-ggsave("boxplot_total.png",plot=plot_listo)
+ggsave("boxplot_total.png",plot=plot_listo) #save plot
 
-#  Lyrics
+# Barplot Lyrics
 
 bars<-ggplot(data=datos_TS,aes(x=Letra,fill=Letra))+
   geom_bar(width = 0.25,color="black")+
@@ -88,7 +85,7 @@ skips_listo
 
 ggsave("skips.png",skips_listo)
 
-#densidades
+# Densities
 
 ridge<-ggplot(data=datos_TS,aes(x=Puntaje,y=Album,fill=Album))+
   geom_density_ridges(alpha=0.7)+
@@ -107,11 +104,9 @@ ridges_listo<-ggdraw(insert_yaxis_grob(ridge, pimage, position = "left"))
 ridges_listo
 ggsave("ridges.png",ridges_listo)
 
-#Identificacion
+#Identification
 
-
-
-conteo_iden<-count(datos_TS,Album,Meidentifico)
+conteo_iden<-count(datos_TS,Album,Meidentifico) #Freq table
 
 no<-subset(conteo_iden,Meidentifico=="NO")
 si<-subset(conteo_iden,Meidentifico=="SÍ")

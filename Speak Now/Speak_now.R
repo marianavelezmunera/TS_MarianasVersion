@@ -1,4 +1,7 @@
 # Speak Now
+
+# Table with scores per song
+
 tabla_sn<-datos_TS[c(41:57),-2] %>%
   gt()%>%
   cols_label(Canción="Canción",Puntaje="Puntaje",Skip="Skip",Meidentifico="Me identifico")%>%
@@ -47,8 +50,9 @@ tabla_sn<-datos_TS[c(41:57),-2] %>%
 tabla_sn
 gtsave_extra(tabla_sn,"tabla_sn.png")
 
+#Lyrics
 
-# Porcentaje de letras
+#Percentage per category
 
 cringe_sn<-nrow(subset(datos_TS,Album=="Speak Now"&Letra=="CRINGE"))
 master_sn<-nrow(subset(datos_TS,Album=="Speak Now"&Letra=="MASTERPIECE"))
@@ -64,7 +68,7 @@ data_sn<-data.frame(letra=c("cringe","master","normal"),percentage=c(percentage_
 
 labelposition_sn<-(ymax_sn+ymin_sn)/2
 
-#Plot
+#Pie chart
 
 pie_sn<-ggplot(data_sn,aes(ymax=ymax_sn,ymin=ymin_sn,xmax=4,xmin=3,fill=letra))+
   geom_rect(colour="black")+
@@ -90,6 +94,6 @@ bar_sn<-ggplot(data = subset(skips,album=="Speak Now"),aes(x=skips,y=frecuencia,
   theme(axis.text = element_text(family = "Lato",size = 16))+
   theme(aspect.ratio = 1)
 
-sn_stats<-bar_sn+pie_sn
+sn_stats<-bar_sn+pie_sn #combined plot
 ggsave("sn_stats.png",plot=sn_stats)  
 

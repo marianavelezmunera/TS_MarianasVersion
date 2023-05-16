@@ -1,4 +1,7 @@
 #Midnights
+
+# Table with scores per song
+
 tabla_Mid<-datos_TS[c(170:189),-2] %>%
   gt()%>%
   cols_label(Canción="Canción",Puntaje="Puntaje",Skip="Skip",Meidentifico="Me identifico")%>%
@@ -44,10 +47,11 @@ tabla_Mid<-datos_TS[c(170:189),-2] %>%
     locations = cells_body(
       columns = everything(),
       rows = Canción=="The Great War"))
-tabla_Mid
 gtsave_extra(tabla_Mid,"tabla_Midnights.png")
 
-#Porcentaje de letras
+#Lyrics
+
+#Percentage per category
 
 cringe_mid<-nrow(subset(datos_TS,Album=="Midnights"&Letra=="CRINGE"))
 master_mid<-nrow(subset(datos_TS,Album=="Midnights"&Letra=="MASTERPIECE"))
@@ -63,7 +67,7 @@ data_mid<-data.frame(letra=c("cringe","master","normal"),percentage=c(percentage
 
 labelposition_mid<-(ymax_mid+ymin_mid)/2
 
-#Plot
+#Pie chart
 
 pie_mid<-ggplot(data_mid,aes(ymax=ymax_mid,ymin=ymin_mid,xmax=4,xmin=3,fill=letra))+
   geom_rect(colour="black")+
@@ -74,9 +78,6 @@ pie_mid<-ggplot(data_mid,aes(ymax=ymax_mid,ymin=ymin_mid,xmax=4,xmin=3,fill=letr
   geom_text(x=3.5,size=8,aes(y=labelposition_mid,label=c("20%","55%","25%")))+
   scale_fill_manual(values=c("#D98F4E","#6597AA","#552115"),labels=c("Cringe","Masterpiece","Normal"),name="LA LETRA ES:")+
   theme(legend.title = element_text(family="Lato",face="bold",size = 20))
-
-pie_mid
-percentage_normal_mid
 
 # Skips 
 

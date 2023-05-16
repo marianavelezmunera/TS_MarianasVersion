@@ -1,5 +1,7 @@
 #folklore
 
+# Table with scores per song
+
 tabla_folklore<-datos_TS[c(136:152),-2] %>%
   gt()%>%
   cols_label(Canción="Canción",Puntaje="Puntaje",Skip="Skip",Meidentifico="Me identifico")%>%
@@ -45,10 +47,11 @@ tabla_folklore<-datos_TS[c(136:152),-2] %>%
     locations = cells_body(
       columns = everything(),
       rows = Canción=="mirrorball"))
-tabla_folklore
-
 gtsave_extra(tabla_folklore,"tabla_folklore.png")
-#Porcentaje de letras
+
+#Lyrics
+
+#Percentage per category
 
 cringe_fol<-nrow(subset(datos_TS,Album=="folklore"&Letra=="CRINGE"))
 master_fol<-nrow(subset(datos_TS,Album=="folklore"&Letra=="MASTERPIECE"))
@@ -61,11 +64,11 @@ ymax_fol<-cumsum(c(percentage_cringe_fol,percentage_master_fol,percentage_normal
 ymin_fol<-c(0,head(ymax_fol,n=-1))
 
 data_fol<-data.frame(letra=c("cringe","master","normal"),percentage=c(percentage_cringe_fol,percentage_master_fol,percentage_normal_fol),ymax_fol,ymin_fol)
-data_fol<-subset(data_fol,letra!="cringe")
+data_fol<-subset(data_fol,letra!="cringe") #There were no cringes in folklore, so I subseted the data to avoid adding a cringe box in the legend when there weren't any cringes
 
 labelposition_fol<-(ymax_fol+ymin_fol)/2
 
-#Plot
+#Pie chart
 
 pie_fol<-ggplot(data_fol,aes(ymax=ymax_fol,ymin=ymin_fol,xmax=4,xmin=3,fill=letra))+
   geom_rect(colour="black")+
@@ -76,9 +79,6 @@ pie_fol<-ggplot(data_fol,aes(ymax=ymax_fol,ymin=ymin_fol,xmax=4,xmin=3,fill=letr
   geom_text(x=3.5,size=8,aes(y=labelposition_fol[2:3],label=c("82%","18%")))+
   scale_fill_manual(values=c("#BEB9B5","#BFBB7A"),labels=c("Masterpiece","Normal"),name="LA LETRA ES:")+
   theme(legend.title = element_text(family="Lato",face="bold",size = 20))
-
-percentage_master_fol
-
 
 # Skips 
 
@@ -93,5 +93,6 @@ bar_fol<-ggplot(data = subset(skips,album=="folklore"),aes(x=skips,y=frecuencia,
   theme(axis.title = element_text(family = "Lato",face = "bold",size = 20))+
   theme(axis.text = element_text(family = "Lato",size = 16))+
   theme(aspect.ratio = 1)
-fol_stats<-bar_fol+pie_fol
+
+fol_stats<-bar_fol+pie_fol #combined plot 
 ggsave("fol_stats.png",plot=fol_stats)

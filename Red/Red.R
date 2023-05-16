@@ -1,4 +1,6 @@
-# Red (TV)
+# Red (Taylor's Version)
+
+# Table with scores per song
 
 tabla_red<-datos_TS[c(58:86),-2] %>%
   gt()%>%
@@ -45,11 +47,11 @@ tabla_red<-datos_TS[c(58:86),-2] %>%
     locations = cells_body(
       columns = everything(),
       rows = Canción=="State of Grace"))
-tabla_red
-gtsave(tabla_red,"tabla_red.png")
 gtsave_extra(tabla_red,"tabla_red.png")
 
-# Porcentaje de letras
+#Lyrics
+
+#Percentage per category
 
 cringe_red<-nrow(subset(datos_TS,Album=="Red (Taylor's Version)"&Letra=="CRINGE"))
 master_red<-nrow(subset(datos_TS,Album=="Red (Taylor's Version)"&Letra=="MASTERPIECE"))
@@ -65,7 +67,7 @@ data_red<-data.frame(letra=c("cringe","master","normal"),percentage=c(percentage
 
 labelposition_red<-(ymax_red+ymin_red)/2
 
-#Plot
+#Pie chart
 
 pie_red<-ggplot(data_red,aes(ymax=ymax_red,ymin=ymin_red,xmax=4,xmin=3,fill=letra))+
   geom_rect(colour="black")+
@@ -90,7 +92,7 @@ bar_red<-ggplot(data = subset(skips,album=="Red (Taylor's Version)"),aes(x=skips
   theme(axis.title = element_text(family = "Lato",face = "bold",size = 20))+
   theme(axis.text = element_text(family = "Lato",size = 16))+
   theme(aspect.ratio = 1)
-bar_FTV
-red_stats<-bar_red+pie_red
+
+red_stats<-bar_red+pie_red #combined plot using patchwork
 ggsave("red_stats.png",plot=red_stats)
 

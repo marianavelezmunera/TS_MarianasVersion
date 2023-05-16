@@ -1,4 +1,6 @@
-# Fearless (TV)
+# Fearless (Taylor's Version)
+
+# Table with scores per song
 
 tabla_fearless<-datos_TS[c(15:40),-2] %>%
   gt()%>%
@@ -45,10 +47,11 @@ tabla_fearless<-datos_TS[c(15:40),-2] %>%
     locations = cells_body(
       columns = everything(),
       rows = Canción=="Mr. Perfectly Fine"))
-tabla_fearless
 gtsave_extra(tabla_fearless,"tabla_fearless.png")
 
-## Porcentaje de las letras
+#Lyrics
+
+#Percentage per category
 
 cringe_FTV<-nrow(subset(datos_TS,Album=="Fearless (Taylor's Version)"&Letra=="CRINGE"))
 master_FTV<-nrow(subset(datos_TS,Album=="Fearless (Taylor's Version)"&Letra=="MASTERPIECE"))
@@ -64,7 +67,7 @@ data_FTV<-data.frame(letra=c("cringe","master","normal"),percentage=c(percentage
 
 labelposition_FTV<-(ymax_FTV+ymin_FTV)/2
 
-#Plot
+#Pie chart
 
 pie_FTV<-ggplot(data_FTV,aes(ymax=ymax_FTV,ymin=ymin_FTV,xmax=4,xmin=3,fill=letra))+
   geom_rect(colour="black")+
@@ -89,9 +92,6 @@ bar_FTV<-ggplot(data = subset(skips,album=="Fearless (Taylor's Version)"),aes(x=
   theme(axis.title = element_text(family = "Lato",face = "bold",size = 20))+
   theme(axis.text = element_text(family = "Lato",size = 16))+
   theme(aspect.ratio = 1)
-bar_FTV
-FTV_stats<-bar_FTV+pie_FTV
-ggsave("FTV_deb.png",plot=FTV_stats)  
 
-FTV_stats
-
+FTV_stats<-bar_FTV+pie_FTV #combined plot 
+ggsave("FTV_deb.png",plot=FTV_stats)#save plot 

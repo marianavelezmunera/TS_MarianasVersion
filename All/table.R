@@ -15,16 +15,16 @@ colnames(info_completa)[3]<-"Puntaje medio"
 
 info_completa<-info_completa[order(info_completa$`Puntaje medio`,info_completa$`Puntaje promedio`,decreasing = TRUE),] #Scoring sorted by median, the ties were solved by mean
 
-colnames(info_completa)<-c("album","prom","mediana","url")
-info_completa<-info_completa %>% 
-  relocate(url,.before = album)
-
 url_albums<-c("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/TS_folklore_Wordmark.svg/1920px-TS_folklore_Wordmark.svg.png","https://upload.wikimedia.org/wikipedia/commons/5/52/Taylor_Swift_-_Speak_Now.svg","https://upload.wikimedia.org/wikipedia/commons/5/5d/1989_album_logo.png","https://upload.wikimedia.org/wikipedia/commons/2/21/Evermore-wordmark.svg","https://upload.wikimedia.org/wikipedia/commons/3/37/Taylor_Swift_-_Midnights_%28Logo%29.png","https://upload.wikimedia.org/wikipedia/commons/3/31/Reputation_Logo.svg","https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Red_%28Taylor%27s_Version%29_logo.svg/800px-Red_%28Taylor%27s_Version%29_logo.svg.png","https://upload.wikimedia.org/wikipedia/commons/8/83/Fearless_%28Taylor%27s_Version%29_logo.svg","https://upload.wikimedia.org/wikipedia/commons/4/40/Taylor_swift_logo.jpg","https://upload.wikimedia.org/wikipedia/commons/6/61/Taylor_Swift_-_Lover_%28Logo%29.png") # Album logos
 
 info_completa$url<-url_albums
 
+colnames(info_completa)<-c("album","prom","mediana","url") #changing col names
+info_completa<-info_completa %>% #reordering columns
+  relocate(url,.before = album)
+
 tabla<-info_completa[,c(1,3,4)] %>%
-  gt() %>%
+  gt() %>% #table
   gt::text_transform(
     #Apply a function to a column
     locations = cells_body(c(url)),
@@ -70,4 +70,4 @@ tabla <- tabla %>%
   cols_align("center")
 tabla
 
-gtsave(tabla,"tabla_puntajes1.png")
+gtsave(tabla,"tabla_puntajes1.png") #Save table
